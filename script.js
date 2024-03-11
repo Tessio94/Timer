@@ -6,12 +6,12 @@ const buttonReset = document.querySelector("#resetBtn");
 
 let timer = null;
 let startTime = 0;
-let goneByTime = 0;
+let passedTime = 0;
 let isRunning = false;
 
 const start = function () {
   if (!isRunning) {
-    startTime = Date.now();
+    startTime = Date.now() - passedTime;
     timer = setInterval(update, 10);
     isRunning = true;
   }
@@ -20,7 +20,7 @@ const start = function () {
 function stop() {
   if (isRunning) {
     clearInterval(timer);
-    goneByTime = Date.now() - startTime;
+    passedTime = Date.now() - startTime;
     isRunning = false;
   }
 }
@@ -28,7 +28,7 @@ function stop() {
 function reset() {
   clearInterval(timer);
   startTime = 0;
-  goneByTime = 0;
+  passedTime = 0;
   isRunning = false;
   display.textContent = "00:00:00:00";
 }
@@ -36,12 +36,12 @@ function reset() {
 function update() {
   const currentTime = Date.now();
 
-  goneByTime = currentTime - startTime;
+  passedTime = currentTime - startTime;
 
-  let hours = Math.floor(goneByTime / (1000 * 60 * 60));
-  let min = Math.floor((goneByTime / (1000 * 60)) % 60);
-  let sec = Math.floor((goneByTime / 1000) % 60);
-  let miliSec = Math.floor((goneByTime % 1000) / 10);
+  let hours = Math.floor(passedTime / (1000 * 60 * 60));
+  let min = Math.floor((passedTime / (1000 * 60)) % 60);
+  let sec = Math.floor((passedTime / 1000) % 60);
+  let miliSec = Math.floor((passedTime % 1000) / 10);
 
   hours = String(hours).padStart(2, "0");
   min = String(min).padStart(2, "0");
